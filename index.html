@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <title>TOP1 Auto Token Studio</title>
+
+  <style>
+    /* رنگ‌ها و ظاهر کلی برنامه */
+    :root {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --panel: #131b2e;
+      --border: #2b3a56;
+      --text: #f2f5ff;
+      --muted: #a8b5d0;
+      --accent: #8b9aff;
+      --good: #4ade80;
+      --bad: #fb7185;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      text-align: center;
+      padding: 25px 14px;
+      background: #10182a;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 26px;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    main {
+      max-width: 950px;
+      margin: auto;
+      padding: 14px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 17px;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin-top: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    input, select, textarea {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      padding: 12px;
+      color: var(--text);
+      background: #080f1f;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      font-size: 15px;
+    }
+
+    input[type="checkbox"] {
+      width: auto;
+      display: inline-block;
+    }
+
+    button, .link-button {
+      display: inline-block;
+      margin: 6px 4px 6px 0;
+      padding: 11px 14px;
+      background: #202c46;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    button.primary {
+      background: var(--accent);
+      color: #080f1f;
+      font-weight: bold;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 10px;
+      padding: 11px;
+      background: #080f1f;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    .status.good {
+      border-color: var(--good);
+    }
+
+    .status.bad {
+      border-color: var(--bad);
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    pre {
+      padding: 12px;
+      overflow: auto;
+      background: #080f1f;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      font-size: 12px;
+    }
+
+    .preview {
+      width: 160px;
+      height: 160px;
+      object-fit: contain;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .preview-wrap {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .checkline {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 12px 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 22px 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 22px;
+      }
+
+      .card {
+        padding: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <h1>TOP1 Auto Token Studio</h1>
+  <p>Token Tools, Wallet Connection and Logo Manager</p>
+</header>
+
+<main>
+
+  <!-- بخش اول: اطلاعات توکن -->
+  <section class="card">
+    <h2>1. Token Settings</h2>
+
+    <div class="grid">
+      <div class="field">
+        <label for="tokenName">Token Name</label>
+        <input id="tokenName" value="TOP1" maxlength="40">
+      </div>
+
+      <div class="field">
+        <label for="tokenSymbol">Token Symbol</label>
+        <input id="tokenSymbol" value="TOP1" maxlength="12">
+      </div>
+
+      <div class="field">
+        <label for="tokenDecimals">Decimals</label>
+        <select id="tokenDecimals">
+          <option value="18" selected>18</option>
+          <option value="8">8</option>
+          <option value="6">6</option>
+          <option value="0">0</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="tokenSupply">Initial Supply</label>
+        <input id="tokenSupply" type="number"
+               min="1" max="1000000000000000000"
+               step="1" value="1000000">
+      </div>
+
+      <div class="field">
+        <label for="network">Blockchain Network</label>
+        <select id="network">
+          <option value="56">BNB Smart Chain Mainnet</option>
+          <option value="97">BNB Smart Chain Testnet</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="contractAddress">Contract Address</label>
+        <input id="contractAddress" placeholder="0x...">
+      </div>
+    </div>
+
+    <p class="muted">
+      Changing these settings does not change a contract already deployed.
+    </p>
+
+    <button class="primary" id="generateButton">
+      Generate Solidity
+    </button>
+
+    <button id="connectButton">Connect Wallet</button>
+    <button id="checkWalletButton">Check Wallet</button>
+
+    <div id="walletStatus" class="status">
+      Wallet not checked.
+    </div>
+  </section>
+
+  <!-- بخش دوم: نمایش و دانلود کد قرارداد -->
+  <section class="card">
+    <h2>2. Solidity Source Code</h2>
+
+    <p class="muted">
+      Generate a fixed-supply token source for review and compilation.
+    </p>
+
+    <textarea id="solidityOutput" rows="12"
+      spellcheck="false"
+      placeholder="Generated Solidity source appears here."></textarea>
+
+    <button id="downloadSolidityButton">Download TOP1.sol</button>
+    <button id="openRemixButton">Open Remix IDE</button>
+  </section>
+
+  <!-- بخش سوم: بررسی قرارداد روی شبکه -->
+  <section class="card">
+    <h2>3. Contract Tools</h2>
+
+    <button id="openBscScanButton">Open BscScan</button>
+    <button id="openVerifyButton">Open Verification Page</button>
+    <button id="copyAddressButton">Copy Contract Address</button>
+    <button id="readContractButton">Read Token Details</button>
+
+    <div id="contractStatus" class="status">
+      Enter a deployed contract address.
+    </div>
+
+    <pre id="contractDetails">Token details will appear here.</pre>
+  </section>
+
+  <!-- بخش چهارم: مدیریت لوگوی توکن -->
+  <section class="card" id="logoManager">
+    <h2>4. Logo & Token Listing Manager</h2>
+
+    <p>
+      Upload a PNG image, check its dimensions, and prepare listing files.
+    </p>
+
+    <p class="muted">
+      Preparing files does not submit or approve a logo automatically.
+    </p>
+
+    <div class="field">
+      <label for="logoFile">Select PNG Logo</label>
+      <input id="logoFile" type="file" accept="image/png,.png">
+    </div>
+
+    <div class="preview-wrap" style="margin-top:12px">
+      <img id="logoPreview" class="preview"
+           alt="Logo preview" hidden>
+
+      <div id="logoStatus" class="status">
+        No logo selected.
+      </div>
+    </div>
+
+    <p class="muted">
+      Recommended: square PNG, 256×256 or 512×512, maximum 100 KB.
+    </p>
+
+    <button id="downloadLogoButton" disabled>
+      Download logo.png
+    </button>
+
+    <button id="downloadInfoButton">
+      Download info.json Draft
+    </button>
+
+    <div class="field" style="margin-top:12px">
+      <label for="listingStatus">Listing Status</label>
+      <select id="listingStatus">
+        <option value="not_started">Not started</option>
+        <option value="files_ready">Files prepared locally</option>
+        <option value="submitted">Submitted by me</option>
+        <option value="approved">Confirmed approved</option>
+        <option value="rejected">Rejected / needs changes</option>
+      </select>
+    </div>
+
+    <div id="listingStatusMessage" class="status">
+      No external submission has been confirmed.
+    </div>
+
+    <button id="openTrustWalletButton">
+      Trust Wallet Assets
+    </button>
+
+    <button id="openMetaMaskButton">
+      MetaMask Help
+    </button>
+
+    <button id="openBscTokenButton">
+      Open Token on BscScan
+    </button>
+  </section>
+
+  <!-- بخش پنجم: فهرست بررسی امنیت -->
+  <section class="card">
+    <h2>5. Deployment Checklist</h2>
+
+    <div class="checkline">
+      <input type="checkbox" id="checkSource">
+      <label for="checkSource">I reviewed the Solidity source code.</label>
+    </div>
+
+    <div class="checkline">
+      <input type="checkbox" id="checkNetwork">
+      <label for="checkNetwork">I selected the correct network.</label>
+    </div>
+
+    <div class="checkline">
+      <input type="checkbox" id="checkSupply">
+      <label for="checkSupply">I confirmed supply and decimals.</label>
+    </div>
+
+    <div class="checkline">
+      <input type="checkbox" id="checkAddress">
+      <label for="checkAddress">I checked the contract address.</label>
+    </div>
+
+    <div id="checklistStatus" class="status">
+      Complete the checklist before deployment.
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  TOP1 Auto Token Studio — Verify the network and contract before approving transactions.
+      </footer>
+      <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+
+<script>
+"use strict";
+
+/* ابزار کوتاه برای پیدا کردن عناصر صفحه */
+const $ = (id) => document.getElementById(id);
+
+/* تنظیمات شبکه‌های BNB */
+const NETWORKS = {
+  "56": {
+    name: "BNB Smart Chain Mainnet",
+    rpc: "https://bsc-dataseed.binance.org/",
+    explorer: "https://bscscan.com"
+  },
+  "97": {
+    name: "BNB Smart Chain Testnet",
+    rpc: "https://data-seed-prebsc-1-s1.bnbchain.org:8545/",
+    explorer: "https://testnet.bscscan.com"
+  }
+};
+
+/* وضعیت موقت لوگوی انتخاب‌شده */
+let selectedLogoFile = null;
+let selectedLogoUrl = null;
+let logoIsValid = false;
+
+/* نمایش پیام در صفحه */
+function setStatus(id, message, type = "") {
+  const element = $(id);
+  if (!element) return;
+
+  element.textContent = message;
+  element.className = "status" + (type ? " " + type : "");
+}
+
+/* بررسی اطلاعاتی که کاربر وارد کرده */
+function getConfig() {
+  const name = $("tokenName").value.trim();
+  const symbol = $("tokenSymbol").value.trim();
+  const decimals = Number($("tokenDecimals").value);
+  const supplyText = $("tokenSupply").value.trim();
+
+  if (!name || name.length > 40) {
+    throw new Error("Token name must contain 1–40 characters.");
+  }
+
+  if (!/^[A-Za-z0-9_-]{1,12}$/.test(symbol)) {
+    throw new Error("Symbol must contain 1–12 letters, numbers, _ or -.");
+  }
+
+  if (![0, 6, 8, 18].includes(decimals)) {
+    throw new Error("Invalid decimals value.");
+  }
+
+  if (!/^[0-9]+$/.test(supplyText)) {
+    throw new Error("Supply must be a whole number.");
+  }
+
+  const supply = BigInt(supplyText);
+
+  if (supply < 1n || supply > 1000000000000000000n) {
+    throw new Error("Supply is outside the permitted range.");
+  }
+
+  /* کنترل مقدار عرضه برای جلوگیری از سرریز محاسبات قرارداد */
+  const baseUnits = supply * (10n ** BigInt(decimals));
+
+  if (baseUnits > (2n ** 256n - 1n)) {
+    throw new Error("Supply is too large for a Solidity uint256.");
+  }
+
+  return {
+    name,
+    symbol,
+    decimals,
+    supplyText
+  };
+}
+
+/* پاک‌سازی نام و نماد برای قرارگرفتن داخل رشته Solidity */
+function escapeSolidityString(value) {
+  return value
+    .replace(/\\/g, "\\\\")
+    .replace(/"/g, '\\"')
+    .replace(/[\r\n\u2028\u2029]/g, " ");
+}
+
+/* تولید قرارداد با عرضه ثابت و بدون تابع mint */
+function generateSolidity() {
+  const config = getConfig();
+
+  const name = escapeSolidityString(config.name);
+  const symbol = escapeSolidityString(config.symbol);
+  const decimals = config.decimals;
+  const supply = config.supplyText;
+
+  const source = `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract TOP1Token {
+    string public name = "${name}";
+    string public symbol = "${symbol}";
+    uint8 public decimals = ${decimals};
+
+    uint256 public totalSupply;
+
+    mapping(address => uint256) public balanceOf;
+    mapping(address => mapping(address => uint256)) public allowance;
+
+    event Transfer(
+        address indexed from,
+        address indexed to,
+        uint256 value
+    );
+
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 value
+    );
+
+    constructor() {
+        uint256 initialSupply =
+            ${supply} * (10 ** uint256(decimals));
+
+        totalSupply = initialSupply;
+        balanceOf[msg.sender] = initialSupply;
+
+        emit Transfer(address(0), msg.sender, initialSupply);
+    }
+
+    function transfer(
+        address to,
+        uint256 value
+    ) external returns (bool) {
+        require(to != address(0), "Zero address");
+        require(balanceOf[msg.sender] >= value, "Insufficient balance");
+
+        balanceOf[msg.sender] -= value;
+        balanceOf[to] += value;
+
+        emit Transfer(msg.sender, to, value);
+        return true;
+    }
+
+    function approve(
+        address spender,
+        uint256 value
+    ) external returns (bool) {
+        require(spender != address(0), "Zero address");
+
+        allowance[msg.sender][spender] = value;
+
+        emit Approval(msg.sender, spender, value);
+        return true;
+    }
+
+    function transferFrom(
+        address from,
+        address to,
+        uint256 value
+    ) external returns (bool) {
+        require(to != address(0), "Zero address");
+        require(balanceOf[from] >= value, "Insufficient balance");
+        require(
+            allowance[from][msg.sender] >= value,
+            "Allowance exceeded"
+        );
+
+        allowance[from][msg.sender] -= value;
+        balanceOf[from] -= value;
+        balanceOf[to] += value;
+
+        emit Transfer(from, to, value);
+        return true;
+    }
+}
+`;
+
+  $("solidityOutput").value = source;
+
+  setStatus(
+    "contractStatus",
+    "Solidity source generated. Compile and review it before deployment.",
+    "good"
+  );
+}
+
+/* دانلود فایل از داخل مرورگر */
+function downloadBlob(filename, content, mimeType) {
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = filename;
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/* بازکردن سایت بیرونی */
+function openExternal(url) {
+  const opened = window.open(url, "_blank", "noopener,noreferrer");
+
+  if (!opened) {
+    setStatus(
+      "contractStatus",
+      "The browser blocked the new tab. Open this URL manually: " + url,
+      "bad"
+    );
+  }
+}
+
+/* بررسی ساختار آدرس EVM */
+function getContractAddress() {
+  const address = $("contractAddress").value.trim();
+
+  if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    throw new Error("Enter a valid 0x contract address.");
+  }
+
+  return address;
+}
+
+/* درخواست اتصال کیف پول */
+async function connectWallet() {
+  if (!window.ethereum) {
+    setStatus(
+      "walletStatus",
+      "No compatible injected wallet found. Try a compatible wallet browser.",
+      "bad"
+    );
+    return;
+  }
+
+  try {
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts"
+    });
+
+    const chainId = await window.ethereum.request({
+      method: "eth_chainId"
+    });
+
+    setStatus(
+      "walletStatus",
+      "Wallet account: " + (accounts[0] || "No account") +
+      "\nConnected chain ID: " + chainId +
+      "\nSelected network ID: " + $("network").value,
+      "good"
+    );
+  } catch (error) {
+    setStatus(
+      "walletStatus",
+      "Connection failed or was cancelled: " +
+      (error.message || String(error)),
+      "bad"
+    );
+  }
+}
+
+/* بررسی اتصال موجود، بدون درخواست مجوز جدید */
+async function checkWallet() {
+  if (!window.ethereum) {
+    setStatus("walletStatus", "No injected wallet detected.", "bad");
+    return;
+  }
+
+  try {
+    const accounts = await window.ethereum.request({
+      method: "eth_accounts"
+    });
+
+    const chainId = await window.ethereum.request({
+      method: "eth_chainId"
+    });
+
+    setStatus(
+      "walletStatus",
+      "Account: " + (accounts[0] || "Not connected") +
+      "\nChain ID: " + chainId +
+      "\nSelected network: " + $("network").value,
+      accounts.length ? "good" : ""
+    );
+  } catch (error) {
+    setStatus(
+      "walletStatus",
+      error.message || String(error),
+      "bad"
+    );
+  }
+}
+
+/* خواندن اطلاعات یک قرارداد مستقرشده از شبکه انتخابی */
+async function readContract() {
+  try {
+    const address = getContractAddress();
+    const chain = $("network").value;
+    const network = NETWORKS[chain];
+
+    const provider = new ethers.JsonRpcProvider(network.rpc);
+
+    const abi = [
+      "function name() view returns (string)",
+      "function symbol() view returns (string)",
+      "function decimals() view returns (uint8)",
+      "function totalSupply() view returns (uint256)"
+    ];
+
+    const contract = new ethers.Contract(address, abi, provider);
+
+    const [name, symbol, decimals, totalSupply] =
+      await Promise.all([
+        contract.name(),
+        contract.symbol(),
+        contract.decimals(),
+        contract.totalSupply()
+      ]);
+
+    const formattedSupply = ethers.formatUnits(
+      totalSupply,
+      Number(decimals)
+    );
+
+    $("contractDetails").textContent =
+      "Network: " + network.name + "\n" +
+      "Address: " + address + "\n" +
+      "Name: " + name + "\n" +
+      "Symbol: " + symbol + "\n" +
+      "Decimals: " + decimals + "\n" +
+      "Total supply: " + formattedSupply;
+
+    setStatus(
+      "contractStatus",
+      "Contract data read successfully.",
+      "good"
+    );
+  } catch (error) {
+    setStatus(
+      "contractStatus",
+      "Could not read contract. Check the address, selected network and RPC connection.\n" +
+      (error.message || String(error)),
+      "bad"
+    );
+  }
+}
+  /* انتخاب و بررسی لوگوی PNG */
+function handleLogoSelection(file) {
+  selectedLogoFile = null;
+  logoIsValid = false;
+  $("downloadLogoButton").disabled = true;
+
+  if (selectedLogoUrl) {
+    URL.revokeObjectURL(selectedLogoUrl);
+    selectedLogoUrl = null;
+  }
+
+  $("logoPreview").hidden = true;
+
+  if (!file) {
+    setStatus("logoStatus", "No logo selected.");
+    return;
+  }
+
+  if (
+    file.type !== "image/png" ||
+    !file.name.toLowerCase().endsWith(".png")
+  ) {
+    setStatus("logoStatus", "Please select a PNG image.", "bad");
+    return;
+  }
+
+  if (file.size > 100 * 1024) {
+    setStatus("logoStatus", "The PNG file must be no larger than 100 KB.", "bad");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function () {
+    const buffer = reader.result;
+    const bytes = new Uint8Array(buffer);
+
+    const signature = [137, 80, 78, 71, 13, 10, 26, 10];
+
+    const isPng = signature.every(
+      (value, index) => bytes[index] === value
+    );
+
+    if (!isPng || bytes.length < 24) {
+      setStatus("logoStatus", "The selected file is not a valid PNG.", "bad");
+      return;
+    }
+
+    const view = new DataView(buffer);
+    const width = view.getUint32(16, false);
+    const height = view.getUint32(20, false);
+
+    if (width !== height) {
+      setStatus(
+        "logoStatus",
+        "The logo must be square. Current dimensions: " +
+        width + " × " + height,
+        "bad"
+      );
+      return;
+    }
+
+    selectedLogoFile = file;
+    logoIsValid = true;
+    selectedLogoUrl = URL.createObjectURL(file);
+
+    $("logoPreview").src = selectedLogoUrl;
+    $("logoPreview").hidden = false;
+    $("downloadLogoButton").disabled = false;
+
+    setStatus(
+      "logoStatus",
+      "PNG validated.\nDimensions: " + width + " × " + height +
+      "\nFile size: " + file.size + " bytes.",
+      "good"
+    );
+  };
+
+  reader.onerror = function () {
+    setStatus("logoStatus", "Unable to read the selected file.", "bad");
+  };
+
+  reader.readAsArrayBuffer(file);
+}
+
+/* دانلود تصویر با نام دقیق logo.png */
+function downloadLogo() {
+  if (!selectedLogoFile || !logoIsValid) {
+    setStatus("logoStatus", "Select a valid PNG logo first.", "bad");
+    return;
+  }
+
+  downloadBlob(
+    "logo.png",
+    selectedLogoFile,
+    "image/png"
+  );
+
+  setStatus(
+    "logoStatus",
+    "The logo.png download has been requested.",
+    "good"
+  );
+}
+
+/* ساخت فایل پیش‌نویس اطلاعات توکن */
+function downloadInfoJson() {
+  try {
+    const config = getConfig();
+    const address = getContractAddress();
+    const networkId = $("network").value;
+    const network = NETWORKS[networkId];
+
+    const info = {
+      name: config.name,
+      symbol: config.symbol,
+      decimals: config.decimals,
+      address: address,
+      chainId: Number(networkId),
+      network: network.name,
+      logo: "logo.png",
+      listingStatus: $("listingStatus").value,
+      note: "Draft only. Confirm the official repository schema before submitting."
+    };
+
+    downloadBlob(
+      "info.json",
+      JSON.stringify(info, null, 2),
+      "application/json;charset=utf-8"
+    );
+
+    setStatus(
+      "logoStatus",
+      "The info.json draft is ready. It has not been submitted to a listing service.",
+      "good"
+    );
+  } catch (error) {
+    setStatus(
+      "logoStatus",
+      error.message || String(error),
+      "bad"
+    );
+  }
+}
+
+/* نمایش وضعیت پیگیری ثبت لوگو */
+function updateListingStatus() {
+  const messages = {
+    not_started: "No submission has been confirmed.",
+    files_ready: "Files prepared locally. Nothing has been submitted.",
+    submitted: "You marked this as submitted. Check the official service for confirmation.",
+    approved: "You marked this as approved. Verify the approval on the official service.",
+    rejected: "You marked this as rejected or needing changes."
+  };
+
+  setStatus(
+    "listingStatusMessage",
+    messages[$("listingStatus").value] || "Status not confirmed."
+  );
+}
+
+/* به‌روزرسانی فهرست بررسی‌ها */
+function updateChecklist() {
+  const ids = [
+    "checkSource",
+    "checkNetwork",
+    "checkSupply",
+    "checkAddress"
+  ];
+
+  const completed = ids.filter(id => $(id).checked).length;
+
+  setStatus(
+    "checklistStatus",
+    completed + " of " + ids.length +
+    " checks completed.\n" +
+    (completed === ids.length
+      ? "Checklist complete. This does not guarantee contract safety."
+      : "Complete the remaining checks."),
+    completed === ids.length ? "good" : ""
+  );
+}
+
+/* بازکردن قرارداد در مرورگر بلاک‌چین */
+function openContractExplorer() {
+  try {
+    const address = getContractAddress();
+    const base = NETWORKS[$("network").value].explorer;
+
+    openExternal(
+      base + "/address/" + encodeURIComponent(address)
+    );
+  } catch (error) {
+    setStatus(
+      "contractStatus",
+      error.message || String(error),
+      "bad"
+    );
+  }
+}
+
+/* بازکردن صفحه تأیید سورس در BscScan */
+function openVerificationPage() {
+  try {
+    const address = getContractAddress();
+    const base = NETWORKS[$("network").value].explorer;
+
+    openExternal(
+      base + "/verifyContract?a=" + encodeURIComponent(address)
+    );
+  } catch (error) {
+    setStatus(
+      "contractStatus",
+      error.message || String(error),
+      "bad"
+    );
+  }
+}
+
+/* کپی آدرس قرارداد */
+async function copyContractAddress() {
+  try {
+    const address = getContractAddress();
+
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(address);
+    } else {
+      const temporary = document.createElement("textarea");
+      temporary.value = address;
+      temporary.style.position = "fixed";
+      temporary.style.opacity = "0";
+
+      document.body.appendChild(temporary);
+      temporary.select();
+
+      const copied = document.execCommand("copy");
+      temporary.remove();
+
+      if (!copied) {
+        throw new Error("Copy was blocked by the browser.");
+      }
+    }
+
+    setStatus("contractStatus", "Contract address copied.", "good");
+  } catch (error) {
+    setStatus(
+      "contractStatus",
+      error.message || String(error),
+      "bad"
+    );
+  }
+}
+
+/* اتصال دکمه‌ها به توابع مربوط */
+$("generateButton").addEventListener("click", () => {
+  try {
+    generateSolidity();
+  } catch (error) {
+    setStatus(
+      "contractStatus",
+      error.message || String(error),
+      "bad"
+    );
+  }
+});
+
+$("downloadSolidityButton").addEventListener("click", () => {
+  const source = $("solidityOutput").value;
+
+  if (!source.trim()) {
+    setStatus(
+      "contractStatus",
+      "Generate the Solidity source first."
+    );
+    return;
+  }
+
+  downloadBlob(
+    "TOP1.sol",
+    source,
+    "text/plain;charset=utf-8"
+  );
+});
+
+$("connectButton").addEventListener("click", connectWallet);
+$("checkWalletButton").addEventListener("click", checkWallet);
+$("readContractButton").addEventListener("click", readContract);
+$("copyAddressButton").addEventListener("click", copyContractAddress);
+$("openBscScanButton").addEventListener("click", openContractExplorer);
+$("openVerifyButton").addEventListener("click", openVerificationPage);
+
+$("openRemixButton").addEventListener("click", () => {
+  openExternal("https://remix.ethereum.org/");
+});
+
+$("logoFile").addEventListener("change", event => {
+  handleLogoSelection(event.target.files[0]);
+});
+
+$("downloadLogoButton").addEventListener("click", downloadLogo);
+$("downloadInfoButton").addEventListener("click", downloadInfoJson);
+$("listingStatus").addEventListener("change", updateListingStatus);
+
+$("openTrustWalletButton").addEventListener("click", () => {
+  openExternal("https://github.com/trustwallet/assets");
+});
+
+$("openMetaMaskButton").addEventListener("click", () => {
+  openExternal("https://support.metamask.io/");
+});
+
+$("openBscTokenButton").addEventListener("click", openContractExplorer);
+
+[
+  "checkSource",
+  "checkNetwork",
+  "checkSupply",
+  "checkAddress"
+].forEach(id => {
+  $(id).addEventListener("change", updateChecklist);
+});
+
+$("network").addEventListener("change", () => {
+  setStatus(
+    "walletStatus",
+    "Selected network: " + NETWORKS[$("network").value].name +
+    ". The wallet network has not been changed automatically."
+  );
+});
+
+/* نمایش وضعیت اولیه برنامه */
+updateChecklist();
+updateListingStatus();
+</script>
+
+</body>
+</html>
